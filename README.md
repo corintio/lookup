@@ -136,6 +136,6 @@ public class SNCCTest {
     <dependency>
       <groupId>com.github.axet</groupId>
       <artifactId>lookup</artifactId>
-      <version>0.2.14</version>
+      <version>0.2.15</version>
     </dependency>
 ```
