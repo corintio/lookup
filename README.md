@@ -7,7 +7,7 @@ usefull for debuging or automating things.
 
 Lookup project designed to lookup images in images. It based on NCC algorithm. Turns out it is good for simple OCR purpose as well.
 
-Details on NCC (Normalized cross correlation) can be found in 'doc' folder (a lot of math).
+Details on NCC (Normalized cross correlation) can be found in 'docs' folder (a lot of math).
 
 Choose 'lookup' over OpenCL if you need fast simple, pure java solution.
 
