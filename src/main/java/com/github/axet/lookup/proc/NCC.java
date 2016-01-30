@@ -18,15 +18,15 @@ import com.github.axet.lookup.common.ImageMultiplySum;
  * 
  * http://www.fmwconcepts.com/imagemagick/similar/index.php
  * 
- * 1) mean && stddev
+ * 1) {@code mean && stddev}
  * 
- * 2) image1(x,y) - mean1 && image2(x,y) - mean2
+ * 2) {@code image1(x,y) - mean1 && image2(x,y) - mean2}
  * 
- * 3) [3] = (image1(x,y) - mean)(x,y) * (image2(x,y) - mean)(x,y)
+ * 3) {@code [3] = (image1(x,y) - mean)(x,y) * (image2(x,y) - mean)(x,y)}
  * 
- * 4) [4] = mean([3])
+ * 4) {@code [4] = mean([3])}
  * 
- * 5) [4] / (stddev1 * stddev2)
+ * 5) {@code [4] / (stddev1 * stddev2)}
  * 
  * Normalized cross correlation algorithm
  * 

@@ -19,7 +19,7 @@ import com.github.axet.lookup.common.ImageBinaryScale;
  */
 public class OCRScale extends OCR {
 
-    public double s = 0;
+    public double scaleSize = 0;
     public int defaultBlurKernel;
 
     /**
@@ -29,11 +29,12 @@ public class OCRScale extends OCR {
      * 
      * @param blurKernel
      *            ex:10
+     * @param threshold
      */
-    public OCRScale(float s, int blurKernel, float threshold) {
+    public OCRScale(float scaleSize, int blurKernel, float threshold) {
         super(threshold);
 
-        this.s = s;
+        this.scaleSize = scaleSize;
         this.defaultBlurKernel = blurKernel;
     }
 
@@ -82,10 +83,10 @@ public class OCRScale extends OCR {
         // are
         // operating on scaled coords
 
-        x1 *= s;
-        y1 *= s;
-        x2 *= s;
-        y2 *= s;
+        x1 *= scaleSize;
+        y1 *= scaleSize;
+        x2 *= scaleSize;
+        y2 *= scaleSize;
 
         List<FontSymbolLookup> all = new ArrayList<FontSymbolLookup>();
 
@@ -103,16 +104,16 @@ public class OCRScale extends OCR {
     }
 
     public void scale(ImageBinaryScale image, ImageBinaryScale template) {
-        if (s == 0) {
-            s = template.s;
+        if (scaleSize == 0) {
+            scaleSize = template.s;
         }
 
-        if (s != template.s) {
-            template.rescaleMosaic(s, defaultBlurKernel);
+        if (scaleSize != template.s) {
+            template.rescaleMosaic(scaleSize, defaultBlurKernel);
         }
 
-        if (s != image.s) {
-            image.rescale(s, defaultBlurKernel);
+        if (scaleSize != image.s) {
+            image.rescale(scaleSize, defaultBlurKernel);
         }
     }
 

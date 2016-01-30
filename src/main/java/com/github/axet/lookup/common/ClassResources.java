@@ -45,7 +45,6 @@ public class ClassResources {
 
     /**
      * 
-     * @param path
      * @return
      */
     public List<String> names() {

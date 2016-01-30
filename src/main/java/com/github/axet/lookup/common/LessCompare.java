@@ -1,10 +1,10 @@
 package com.github.axet.lookup.common;
 
 /**
- * Java Comparator has compare method with 'int compare(o1, o2)' result value.
+ * Java Comparator has compare method with {@code int compare(o1, o2)} result value.
  * You should read ita as less algorithm, who is less?
  * 
- * o1 < o2
+ * {@code o1 < o2}
  * 
  * -1 points to low value for o1. 0 points for middle / equals. 1 points for o2
  * low value
