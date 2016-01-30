@@ -20,7 +20,7 @@ import com.github.axet.lookup.proc.NCC;
 public class LookupScale {
 
     // minimum scale used
-    public double s = 0;
+    public double scaleSize = 0;
     // blur kernel
     public int k;
     public float gg;
@@ -38,8 +38,8 @@ public class LookupScale {
      * @param g
      *            ex:0.90f - for big templates, and 0.95f for small templates
      */
-    public LookupScale(double s, int blurKernel, float gg, float g) {
-        this.s = s;
+    public LookupScale(double scaleSize, int blurKernel, float gg, float g) {
+        this.scaleSize = scaleSize;
         this.k = blurKernel;
         this.gg = gg;
         this.g = g;
@@ -96,10 +96,10 @@ public class LookupScale {
     public List<GSPoint> lookupAll(ImageBinaryScale image, int x1, int y1, int x2, int y2, ImageBinaryScale template) {
         scale(image, template);
 
-        int sx1 = (int) (x1 * s);
-        int sy1 = (int) (y1 * s);
-        int sx2 = (int) (x2 * s);
-        int sy2 = (int) (y2 * s);
+        int sx1 = (int) (x1 * scaleSize);
+        int sy1 = (int) (y1 * scaleSize);
+        int sx2 = (int) (x2 * scaleSize);
+        int sy2 = (int) (y2 * scaleSize);
 
         List<GSPoint> result = new ArrayList<GSPoint>();
 
@@ -115,14 +115,14 @@ public class LookupScale {
             for (ImageBinary templateScaleBin : template.scales) {
                 List<GPoint> list = NCC.lookupAll(imageScaleBin, sx1, sy1, ssx2, ssy2, templateScaleBin, gg);
 
-                int mx = (int) (1 / s) * 2;
-                int my = (int) (1 / s) * 2;
+                int mx = (int) (1 / scaleSize) * 2;
+                int my = (int) (1 / scaleSize) * 2;
 
                 for (GPoint p : list) {
                     Point p1 = new Point(p);
 
-                    p1.x = (int) (p1.x / s - mx);
-                    p1.y = (int) (p1.y / s - mx);
+                    p1.x = (int) (p1.x / scaleSize - mx);
+                    p1.y = (int) (p1.y / scaleSize - mx);
 
                     Point p2 = new Point(p1);
                     p2.x = template.image.getWidth() - 1 + p2.x + 2 * mx;
@@ -174,16 +174,16 @@ public class LookupScale {
     }
 
     void scale(ImageBinaryScale image, ImageBinaryScale template) {
-        if (s == 0) {
-            s = template.s;
+        if (scaleSize == 0) {
+            scaleSize = template.s;
         }
 
-        if (s != template.s) {
-            template.rescaleMosaic(s, k);
+        if (scaleSize != template.s) {
+            template.rescaleMosaic(scaleSize, k);
         }
 
-        if (s != image.s) {
-            image.rescale(s, k);
+        if (scaleSize != image.s) {
+            image.rescale(scaleSize, k);
         }
     }
 }

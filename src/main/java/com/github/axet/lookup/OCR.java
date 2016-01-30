@@ -62,8 +62,6 @@ public class OCR extends OCRCore {
      *            class name, corresponded to the resources. com.example.MyApp.class
      * @param path
      *            path to the fonts folder. directory should only contain folders with fonts which to load.
-     * @param name
-     *            name of the font to load
      * 
      */
     public void loadFont(Class<?> c, File path) {

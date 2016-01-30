@@ -23,6 +23,7 @@ public class ImageBinaryGreyScaleRGB extends ImageBinaryScale {
      * @param i
      * @param scaleSize
      *            template scale size in pixels you wish. (ex: 5)
+     * @param blurKernel
      */
     public ImageBinaryGreyScaleRGB(BufferedImage i, int scaleSize, int blurKernel) {
         image = new ImageBinaryRGB(i);
