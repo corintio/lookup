@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class OCR extends OCRCore {
         for (String s : str) {
             File f = new File(path, s);
 
-            InputStream is = c.getResourceAsStream(f.getPath());
+            InputStream is = c.getResourceAsStream(ClassResources.toResourcePath(f));
 
             String symbol = FilenameUtils.getBaseName(s);
 

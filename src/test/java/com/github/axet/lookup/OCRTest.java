@@ -10,7 +10,7 @@ public class OCRTest {
         OCR l = new OCR(0.70f);
 
         // will go to com/github/axet/lookup/fonts folder and load all font
-        // familys (here is only font_1 family in this library)
+        // families (here is only font_1 family in this library)
         l.loadFontsDirectory(OCRTest.class, new File("fonts"));
 
         // example how to load only one family
