@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.List;
 
+import com.github.axet.lookup.common.ImageBinaryChannel.ChannelType;
+
 /**
  * Container for ImageBinary class for each channel (rgb channels here)
  * 
@@ -18,13 +20,13 @@ public class ImageBinaryRGB implements ImageBinary {
     public ImageBinaryChannel g;
     public ImageBinaryChannel b;
 
-    List<ImageBinaryChannel> list;
+    public List<ImageBinaryChannel> list;
 
     public ImageBinaryRGB(BufferedImage img) {
         image = new RGBImage();
-        r = new ImageBinaryChannel();
-        g = new ImageBinaryChannel();
-        b = new ImageBinaryChannel();
+        r = new ImageBinaryChannel(ChannelType.RED);
+        g = new ImageBinaryChannel(ChannelType.GREEN);
+        b = new ImageBinaryChannel(ChannelType.BLUE);
 
         list = Arrays.asList(new ImageBinaryChannel[] { r, g, b });
 

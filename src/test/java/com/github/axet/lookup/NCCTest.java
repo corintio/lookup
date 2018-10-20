@@ -22,7 +22,7 @@ public class NCCTest {
                 System.out.println(p);
             }
         }
-        
+
         // grey image lookup
         {
             List<GPoint> pp = NCC.lookupAll(new ImageBinaryGrey(image), new ImageBinaryGrey(template), 0.9f);

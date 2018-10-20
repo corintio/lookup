@@ -10,6 +10,7 @@ import com.github.axet.lookup.common.ImageBinary;
 import com.github.axet.lookup.common.ImageBinaryChannel;
 import com.github.axet.lookup.common.ImageBinaryGrey;
 import com.github.axet.lookup.common.RangeColor;
+import com.github.axet.lookup.proc.NCC.WrongChannelType;
 
 public class LookupColor {
 
@@ -41,8 +42,14 @@ public class LookupColor {
                 int ii = Math.min(ci.size(), ct.size());
 
                 for (int i = 0; i < ii; i++) {
-                    double rgb1 = ct.get(i).zeroMean.s(xx, yy);
-                    double rgb2 = ci.get(i).zeroMean.s(x + xx, y + yy);
+                    ImageBinaryChannel cct = ct.get(i);
+                    ImageBinaryChannel cci = ci.get(i);
+
+                    if (!cct.type.equals(cci.type))
+                        throw new WrongChannelType();
+
+                    double rgb1 = cct.zeroMean.s(xx, yy);
+                    double rgb2 = cci.zeroMean.s(x + xx, y + yy);
                     double min = rgb1 - m;
                     double max = rgb1 + m;
                     if (rgb2 < min || rgb2 > max)

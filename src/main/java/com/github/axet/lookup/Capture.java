@@ -70,6 +70,15 @@ public class Capture {
     // crop
     //
 
+    static public BufferedImage crop(BufferedImage image, int boundsSize) {
+        Rectangle r = new Rectangle(image.getWidth(), image.getHeight());
+        r.x += boundsSize;
+        r.y += boundsSize;
+        r.width -= boundsSize * 2;
+        r.height -= boundsSize * 2;
+        return crop(image, r);
+    }
+
     static public BufferedImage crop(BufferedImage image, Rectangle r) {
         return crop(image, r.x, r.y, r.x + r.width, r.y + r.height);
     }

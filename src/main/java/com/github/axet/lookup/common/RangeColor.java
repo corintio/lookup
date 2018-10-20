@@ -1,8 +1,7 @@
 package com.github.axet.lookup.common;
 
 /**
- * Range Color object. Can hold range color value. (minimum and maximum of
- * specified color) in the int-rgb value
+ * Range Color object. Can hold range color value. (minimum and maximum of specified color) in the int-rgb value
  * 
  * @author axet
  * 
@@ -19,8 +18,8 @@ public class RangeColor {
     /**
      * create range from mid
      * 
-     * @param mid
-     * @param diff
+     * @param rgb
+     * @param f
      */
     public RangeColor(int rgb, float f) {
         rgb &= 0x00ffffff;
@@ -62,11 +61,10 @@ public class RangeColor {
     }
 
     /**
-     * if rgb1 > rgb2 return true
      * 
      * @param rgb1
      * @param rgb2
-     * @return
+     * @return {@code true} if {@code rgb1 > rgb2}
      */
     public static boolean isGr(int rgb1, int rgb2) {
         int r1 = rgb1 & 0xff0000;
@@ -169,7 +167,7 @@ public class RangeColor {
         max = (rh << 16) | (gh << 8) | (bh);
     }
 
-    int av(int l, int h) {
+    public int av(int l, int h) {
         return l + (h - l) / 2;
     }
 

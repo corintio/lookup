@@ -4,7 +4,6 @@ public class FeatureSetAuto extends FeatureSet {
     private static final long serialVersionUID = -4442575077693435100L;
 
     public FeatureSetAuto(ImageBinaryChannelFeature template, double threshold) {
-
         Feature f = new Feature(1, 1, new double[] {
 
         1,
@@ -18,7 +17,7 @@ public class FeatureSetAuto extends FeatureSet {
         addAll(s);
     }
 
-    FeatureSet j(ImageBinaryChannelFeature template, FeatureK k, double threshold) {
+    public FeatureSet j(ImageBinaryChannelFeature template, FeatureK k, double threshold) {
         FeatureSet list = new FeatureSet();
 
         for (RectK r : k.list) {
@@ -28,7 +27,7 @@ public class FeatureSetAuto extends FeatureSet {
         return list;
     }
 
-    FeatureSet j(ImageBinaryChannelFeature template, double threshold, RectK r) {
+    public FeatureSet j(ImageBinaryChannelFeature template, double threshold, RectK r) {
         FeatureSet s = new FeatureSet();
 
         double j = 0;

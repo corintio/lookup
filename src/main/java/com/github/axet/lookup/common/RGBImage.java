@@ -11,8 +11,8 @@ import java.awt.image.BufferedImage;
 public class RGBImage {
     public BufferedImage buf;
 
-    int cx;
-    int cy;
+    public int cx;
+    public int cy;
 
     public SArray r;
     public SArray g;

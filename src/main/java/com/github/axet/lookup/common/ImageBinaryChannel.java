@@ -12,20 +12,27 @@ package com.github.axet.lookup.common;
  * 4) Zero Mean Image (image where each pixel substracted with image mean value)
  * 
  * @author axet
- *
+ * 
  */
 public class ImageBinaryChannel {
+    public enum ChannelType {
+        GREY, RED, GREEN, BLUE
+    }
+
     public SArray gi;
     public IntegralImage integral;
     public IntegralImage2 integral2;
     public ImageZeroMean zeroMean;
+    public ChannelType type;
 
-    public ImageBinaryChannel() {
+    public ImageBinaryChannel(ChannelType t) {
+        this.type = t;
         integral = new IntegralImage();
         integral2 = new IntegralImage2();
     }
 
-    public ImageBinaryChannel(SArray img) {
+    public ImageBinaryChannel(ChannelType t, SArray img) {
+        this.type = t;
         gi = img;
         integral = new IntegralImage();
         integral2 = new IntegralImage2();
@@ -35,14 +42,14 @@ public class ImageBinaryChannel {
 
         for (int x = 0; x < this.gi.cx; x++) {
             for (int y = 0; y < this.gi.cy; y++) {
-                step(x,y);
+                step(x, y);
             }
         }
 
         zeroMean = new ImageZeroMean(integral);
     }
-    
-    public void step(int x,int y) {
+
+    public void step(int x, int y) {
         integral.step(x, y);
         integral2.step(x, y);
     }

@@ -1,6 +1,7 @@
 package com.github.axet.lookup.common;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,8 +32,8 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ClassResources {
 
-    Class<?> c;
-    File path;
+    public Class<?> c;
+    public File path;
 
     public ClassResources(Class<?> c) {
         this.c = c;
@@ -45,7 +46,6 @@ public class ClassResources {
 
     /**
      * 
-     * @param path
      * @return
      */
     public List<String> names() {
@@ -70,7 +70,7 @@ public class ClassResources {
     //
     // 3) if it is a separate library packed with maven under debugger
     // /Users/axet/.m2/repository/com/github/axet/play/0.0.3/play-0.0.3.jar
-    File getPath(Class<?> cls) {
+    public static File getPath(Class<?> cls) {
         CodeSource src = cls.getProtectionDomain().getCodeSource();
 
         if (src == null)
@@ -79,12 +79,25 @@ public class ClassResources {
         return new File(src.getLocation().getPath());
     }
 
-    String getClassPath(Class<?> c) {
+    public static String getClassPath(Class<?> c) {
         return new File(c.getCanonicalName().replace('.', File.separatorChar)).getParent();
     }
 
-    String getClassPath(Class<?> c, String path) {
+    public static String getClassPath(Class<?> c, String path) {
         return new File(c.getCanonicalName().replace('.', File.separatorChar)).getParent() + File.separator + path;
+    }
+
+    // zip and getResource... calls should have strict "/" as path separator
+    public static String toResourcePath(File file) {
+        String p = "";
+        File f = file;
+        while (f != null) {
+            p = f.getName() + (p.isEmpty() ? "" : ("/" + p));
+            f = f.getParentFile();
+        }
+        if (file.isAbsolute())
+            p = "/" + p;
+        return p;
     }
 
     List<String> getResourceListing(Class<?> clazz, File path) {
@@ -93,9 +106,9 @@ public class ClassResources {
             // if path is common (Like "/com")
             File pp = getPath(clazz);
 
-            String strPath = path.getPath();
-
             if (pp.isDirectory()) {
+                String strPath = path.getPath();
+
                 if (strPath.startsWith(File.separator))
                     pp = new File(pp, strPath);
                 else
@@ -118,9 +131,10 @@ public class ClassResources {
 
             if (pp.isFile()) {
                 String p;
+                String strPath = toResourcePath(path);
 
-                if (strPath.startsWith(File.separator))
-                    p = StringUtils.removeStart(strPath, File.separator);
+                if (strPath.startsWith("/"))
+                    p = StringUtils.removeStart(strPath, "/");
                 else
                     p = getClassPath(clazz, strPath);
 
@@ -134,7 +148,7 @@ public class ClassResources {
                     if (name.startsWith(p)) {
                         f = true;
                         String a = StringUtils.removeStart(name, p);
-                        a = StringUtils.removeStart(a, File.separator);
+                        a = StringUtils.removeStart(a, "/");
                         a = a.trim();
 
                         int e = StringUtils.indexOfAny(a, new char[] { '/', '\\' });

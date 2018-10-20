@@ -4,9 +4,9 @@ import java.awt.Rectangle;
 import java.util.Comparator;
 
 public class GFirstLeftRight implements Comparator<GPoint> {
-    ImageBinary image;
-    int wh;
-    int hh;
+    public ImageBinary image;
+    public int wh;
+    public int hh;
 
     public GFirstLeftRight(ImageBinary image) {
         this.image = image;

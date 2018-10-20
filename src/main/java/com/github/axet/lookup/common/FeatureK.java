@@ -16,7 +16,7 @@ public class FeatureK {
     public List<RectK> list;
     public double k;
 
-    IntegralImage template;
+    public IntegralImage template;
 
     public FeatureK(RectK k) {
         list.add(k);

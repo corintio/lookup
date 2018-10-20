@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.github.axet.lookup.Capture;
 import com.github.axet.lookup.Lookup.NotFound;
 import com.github.axet.lookup.common.GFirst;
 import com.github.axet.lookup.common.GPoint;
@@ -17,15 +18,15 @@ import com.github.axet.lookup.common.ImageMultiplySum;
  * 
  * http://www.fmwconcepts.com/imagemagick/similar/index.php
  * 
- * 1) mean && stddev
+ * 1) {@code mean && stddev}
  * 
- * 2) image1(x,y) - mean1 && image2(x,y) - mean2
+ * 2) {@code image1(x,y) - mean1 && image2(x,y) - mean2}
  * 
- * 3) [3] = (image1(x,y) - mean)(x,y) * (image2(x,y) - mean)(x,y)
+ * 3) {@code [3] = (image1(x,y) - mean)(x,y) * (image2(x,y) - mean)(x,y)}
  * 
- * 4) [4] = mean([3])
+ * 4) {@code [4] = mean([3])}
  * 
- * 5) [4] / (stddev1 * stddev2)
+ * 5) {@code [4] / (stddev1 * stddev2)}
  * 
  * Normalized cross correlation algorithm
  * 
@@ -33,6 +34,9 @@ import com.github.axet.lookup.common.ImageMultiplySum;
  * 
  */
 public class NCC {
+
+    public static class WrongChannelType extends RuntimeException {
+    }
 
     static public GPoint lookup(BufferedImage i, BufferedImage t, float m) {
         List<GPoint> list = lookupAll(i, t, m);
@@ -113,7 +117,13 @@ public class NCC {
         double g = Double.MAX_VALUE;
 
         for (int i = 0; i < ii; i++) {
-            double gg = gamma(ci.get(i), ct.get(i), x, y);
+            ImageBinaryChannel cct = ct.get(i);
+            ImageBinaryChannel cci = ci.get(i);
+
+            if (!cct.type.equals(cci.type))
+                throw new WrongChannelType();
+
+            double gg = gamma(cci, cct, x, y);
 
             if (gg < m)
                 return null;
@@ -133,7 +143,13 @@ public class NCC {
         double g = 0;
 
         for (int i = 0; i < ii; i++) {
-            g += gamma(ci.get(i), ct.get(i), x, y);
+            ImageBinaryChannel cct = ct.get(i);
+            ImageBinaryChannel cci = ci.get(i);
+
+            if (!cct.type.equals(cci.type))
+                throw new WrongChannelType();
+
+            g += gamma(cci, cct, x, y);
         }
 
         g /= ii;
@@ -150,7 +166,13 @@ public class NCC {
         double g = Double.MAX_VALUE;
 
         for (int i = 0; i < ii; i++) {
-            g = Math.min(g, gamma(ci.get(i), ct.get(i), x, y));
+            ImageBinaryChannel cct = ct.get(i);
+            ImageBinaryChannel cci = ci.get(i);
+
+            if (!cct.type.equals(cci.type))
+                throw new WrongChannelType();
+
+            g = Math.min(g, gamma(cci, cct, x, y));
         }
 
         return g;

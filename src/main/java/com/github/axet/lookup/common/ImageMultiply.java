@@ -8,9 +8,9 @@ package com.github.axet.lookup.common;
  */
 public class ImageMultiply extends SArray {
 
-    SArray m;
-    int xx;
-    int yy;
+    public SArray m;
+    public int xx;
+    public int yy;
 
     public ImageMultiply() {
     }

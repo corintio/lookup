@@ -15,21 +15,22 @@ public class ImageBinaryChannelFeature extends ImageBinaryChannel {
 
     public IntegralImage zeroMeanIntegral;
 
-    public ImageBinaryChannelFeature() {
+    public ImageBinaryChannelFeature(ChannelType t) {
+        super(t);
         integral = new IntegralImage();
         integral2 = new IntegralImage2();
     }
 
-    public ImageBinaryChannelFeature(SArray template, FeatureSet list) {
-        super(template);
+    public ImageBinaryChannelFeature(ChannelType t, SArray template, FeatureSet list) {
+        super(t, template);
 
         zeroMeanIntegral = new IntegralImage(zeroMean);
 
         init(list);
     }
 
-    public ImageBinaryChannelFeature(SArray template, double threshold) {
-        super(template);
+    public ImageBinaryChannelFeature(ChannelType t, SArray template, double threshold) {
+        super(t, template);
 
         zeroMeanIntegral = new IntegralImage(zeroMean);
 

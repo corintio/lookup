@@ -20,6 +20,10 @@ public class Lookup {
         public NotFound() {
             super("NotFound");
         }
+
+        public NotFound(String s) {
+            super(s);
+        }
     }
 
     // convert
@@ -87,10 +91,14 @@ public class Lookup {
     }
 
     static public BufferedImage scale(BufferedImage bi, double s, int blurKernel) {
+        return scale(bi, s, blurKernel, 0, 0);
+    }
+
+    static public BufferedImage scale(BufferedImage bi, double s, int blurKernel, int px, int py) {
         bi = filterGausBlur(bi, blurKernel);
 
-        int cx = (int) (bi.getWidth() * s);
-        int cy = (int) (bi.getHeight() * s);
+        int cx = (int) (bi.getWidth() * s) + px;
+        int cy = (int) (bi.getHeight() * s) + py;
 
         Image src = bi.getScaledInstance(cx, cy, Image.SCALE_SMOOTH);
 
@@ -186,7 +194,7 @@ public class Lookup {
 
         return dest;
     }
-    
+
     static public BufferedImage filterBlur(BufferedImage bi, int blurKernel) {
         BufferedImage buff = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
 

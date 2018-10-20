@@ -4,18 +4,20 @@ import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.List;
 
+import com.github.axet.lookup.common.ImageBinaryChannel.ChannelType;
+
 /**
  * Container for ImageBinary and Feature class for each channel (one gray channel here)
  * 
  * @author axet
- *
+ * 
  */
 public class ImageBinaryGreyFeature implements ImageBinaryFeature {
 
     public RGBImage image;
     public ImageBinaryChannelFeature grey;
 
-    List<ImageBinaryChannelFeature> list;
+    public List<ImageBinaryChannelFeature> list;
 
     public ImageBinaryGreyFeature(BufferedImage img, double threshold) {
         init(img);
@@ -27,7 +29,7 @@ public class ImageBinaryGreyFeature implements ImageBinaryFeature {
 
     public void init(BufferedImage img) {
         image = new RGBImage();
-        grey = new ImageBinaryChannelFeature();
+        grey = new ImageBinaryChannelFeature(ChannelType.GREY);
 
         list = Arrays.asList(new ImageBinaryChannelFeature[] { grey });
 

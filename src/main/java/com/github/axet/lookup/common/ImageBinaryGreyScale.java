@@ -8,6 +8,9 @@ public class ImageBinaryGreyScale extends ImageBinaryScale {
 
     public ImageBinaryGreyScale(BufferedImage i) {
         image = new ImageBinaryGrey(i);
+        s = 1f;
+        k = 0;
+        scales.add(image);
     }
 
     /**
@@ -15,6 +18,7 @@ public class ImageBinaryGreyScale extends ImageBinaryScale {
      * @param i
      * @param scaleSize
      *            template scale size in pixels you wish. (ex: 5)
+     * @param blurKernel
      */
     public ImageBinaryGreyScale(BufferedImage i, int scaleSize, int blurKernel) {
         image = new ImageBinaryGrey(i);
@@ -24,15 +28,11 @@ public class ImageBinaryGreyScale extends ImageBinaryScale {
 
     public ImageBinaryGreyScale(BufferedImage i, double scale, int blurKernel) {
         image = new ImageBinaryGrey(i);
-        k = blurKernel;
 
-        s = scale;
-
-        rescale();
+        rescale(scale, blurKernel);
     }
 
-    public void rescale() {
-        scaleBuf = Lookup.scale(image.getImage(), s, k);
-        scaleBin = new ImageBinaryGrey(scaleBuf);
+    public ImageBinary rescale(BufferedImage i) {
+        return new ImageBinaryGrey(i);
     }
 }

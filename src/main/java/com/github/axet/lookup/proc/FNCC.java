@@ -17,6 +17,7 @@ import com.github.axet.lookup.common.ImageBinaryGrey;
 import com.github.axet.lookup.common.ImageBinaryRGB;
 import com.github.axet.lookup.common.ImageBinaryRGBFeature;
 import com.github.axet.lookup.common.RectK;
+import com.github.axet.lookup.proc.NCC.WrongChannelType;
 
 /**
  * http://isas.uka.de/Material/AltePublikationen/briechle_spie2001.pdf
@@ -68,7 +69,13 @@ public class FNCC {
                 double gg = Double.MAX_VALUE;
 
                 for (int i = 0; i < ii; i++) {
-                    double g = gamma(ci.get(i), ct.get(i), x, y);
+                    ImageBinaryChannelFeature cct = ct.get(i);
+                    ImageBinaryChannel cci = ci.get(i);
+
+                    if (!cct.type.equals(cci.type))
+                        throw new WrongChannelType();
+
+                    double g = gamma(cci, cct, x, y);
 
                     gg = Math.min(gg, g);
 

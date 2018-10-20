@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,11 +42,9 @@ public class OCR extends OCRCore {
      * Load fonts / symbols from a class directory or jar file
      * 
      * @param c
-     *            class name, corresponded to the resources.
-     *            com.example.MyApp.class
+     *            class name, corresponded to the resources. com.example.MyApp.class
      * @param path
-     *            path to the fonts folder. directory should only contain
-     *            folders with fonts which to load
+     *            path to the fonts folder. directory should only contain folders with fonts which to load
      * 
      */
     public void loadFontsDirectory(Class<?> c, File path) {
@@ -61,13 +60,9 @@ public class OCR extends OCRCore {
      * Load specified font family to load
      * 
      * @param c
-     *            class name, corresponded to the resources.
-     *            com.example.MyApp.class
+     *            class name, corresponded to the resources. com.example.MyApp.class
      * @param path
-     *            path to the fonts folder. directory should only contain
-     *            folders with fonts which to load.
-     * @param name
-     *            name of the font to load
+     *            path to the fonts folder. directory should only contain folders with fonts which to load.
      * 
      */
     public void loadFont(Class<?> c, File path) {
@@ -78,7 +73,7 @@ public class OCR extends OCRCore {
         for (String s : str) {
             File f = new File(path, s);
 
-            InputStream is = c.getResourceAsStream(f.getPath());
+            InputStream is = c.getResourceAsStream(ClassResources.toResourcePath(f));
 
             String symbol = FilenameUtils.getBaseName(s);
 
@@ -94,23 +89,21 @@ public class OCR extends OCRCore {
     }
 
     public void loadFontSymbol(String fontName, String fontSymbol, InputStream is) {
-        BufferedImage b = Capture.load(is);
-
         FontFamily ff = fontFamily.get(fontName);
         if (ff == null) {
             ff = new FontFamily(fontName);
             fontFamily.put(fontName, ff);
         }
-
-        // b = prepareImageCrop(b);
-
-        FontSymbol f = new FontSymbol(ff, fontSymbol, b);
-
+        FontSymbol f = loadFontSymbol(ff, fontSymbol, is);
         ff.add(f);
     }
 
+    public FontSymbol loadFontSymbol(FontFamily ff, String fontSymbol, InputStream is) {
+        BufferedImage bi = Capture.load(is);
+        return new FontSymbol(ff, fontSymbol, bi);
+    }
+
     public String recognize(BufferedImage bi) {
-        // bi = prepareImage(bi);
         ImageBinary i = new ImageBinaryGrey(bi);
 
         return recognize(i);
@@ -154,16 +147,20 @@ public class OCR extends OCRCore {
     }
 
     public String recognize(ImageBinary i, int x1, int y1, int x2, int y2, List<FontSymbol> list) {
-        String str = "";
-
         List<FontSymbolLookup> all = findAll(list, i, x1, y1, x2, y2);
+
+        return recognize(all);
+    }
+
+    public String recognize(List<FontSymbolLookup> all) {
+        String str = "";
 
         if (all.size() == 0)
             return str;
 
         // bigger first.
 
-        Collections.sort(all, new BiggerFirst());
+        Collections.sort(all, new BiggerFirst(all));
 
         // big images eat small ones
 
@@ -198,7 +195,7 @@ public class OCR extends OCRCore {
                 // if we drop back, then we have a end of line
                 if (s.x < x)
                     str += "\n";
-                x = s.x;
+                x = s.x + s.getWidth();
                 cx = s.getWidth();
                 str += s.fs.fontSymbol;
             }
