@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
@@ -16,6 +15,7 @@ import com.github.axet.lookup.common.FontSymbol;
 import com.github.axet.lookup.common.FontSymbolLookup;
 import com.github.axet.lookup.common.ImageBinary;
 import com.github.axet.lookup.common.ImageBinaryGrey;
+import com.github.axet.lookup.common.MergeSort;
 
 public class OCR extends OCRCore {
 
@@ -25,7 +25,7 @@ public class OCR extends OCRCore {
 
     /**
      * set sensitivity
-     * 
+     *
      * @param threshold
      *            1 - exact match. 0 - not match. -1 - opposite difference
      */
@@ -39,12 +39,12 @@ public class OCR extends OCRCore {
 
     /**
      * Load fonts / symbols from a class directory or jar file
-     * 
+     *
      * @param c
      *            class name, corresponded to the resources. com.example.MyApp.class
      * @param path
      *            path to the fonts folder. directory should only contain folders with fonts which to load
-     * 
+     *
      */
     public void loadFontsDirectory(Class<?> c, File path) {
         ClassResources e = new ClassResources(c, path);
@@ -57,12 +57,12 @@ public class OCR extends OCRCore {
 
     /**
      * Load specified font family to load
-     * 
+     *
      * @param c
      *            class name, corresponded to the resources. com.example.MyApp.class
      * @param path
      *            path to the fonts folder. directory should only contain folders with fonts which to load.
-     * 
+     *
      */
     public void loadFont(Class<?> c, File path) {
         ClassResources e = new ClassResources(c, path);
@@ -115,7 +115,7 @@ public class OCR extends OCRCore {
     }
 
     /**
-     * 
+     *
      * @param fontSet
      *            use font in the specified folder only
      * @param bi
@@ -159,7 +159,7 @@ public class OCR extends OCRCore {
 
         // bigger first.
 
-        Collections.sort(all, new BiggerFirst(all));
+        MergeSort.sort(all, new BiggerFirst(all));
 
         // big images eat small ones
 
@@ -176,7 +176,7 @@ public class OCR extends OCRCore {
 
         // sort top/bottom/left/right
 
-        Collections.sort(all, new Left2Right());
+        MergeSort.sort(all, new Left2Right());
 
         // calculate rows
 
